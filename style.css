@@ -1,0 +1,79 @@
+/* Transiciones suaves para todos los elementos */
+* {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Efecto de scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+.transition-opacity {
+    transition: opacity 0.2s ease-in-out;
+}
+
+
+#projects-list img {
+    opacity: 1; /* Forzamos visibilidad inicial */
+    transition: opacity 0.3s ease-in-out, transform 0.7s ease-in-out;
+}
+
+.img-fade-out {
+    opacity: 0 !important;
+}
+
+
+/* Invertir colores de iconos oscuros en modo Dark */
+.dark .devicon-github-plain,
+.dark .devicon-fastapi-plain,
+.dark .devicon-sqlite-plain {
+    filter: brightness(0) invert(1);
+}
+
+/* Efecto opcional: Que todos brillen un poco más en modo oscuro */
+.dark .colored {
+    filter: saturate(1.2) brightness(1.1);
+}
+
+html {
+    scroll-behavior: smooth;
+    /* Evita que el menú tape el inicio de la sección */
+    scroll-padding-top: 80px; 
+}
+
+/* Animación base */
+.fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-up.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.btn-anim {
+    transition: all 0.3s ease;
+}
+
+.btn-anim:hover {
+    transform: translateY(-3px);
+}
+
+
+
+@keyframes slowPulse {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(1.05);
+  }
+}
+
+.slow-pulse {
+  animation: slowPulse 6s ease-in-out infinite;
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario Portacio | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { colors: { darkBg: '#0f172a' } } }
+        }
+    </script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-darkBg dark:text-slate-100 transition-colors duration-300">
+
+    <nav class="fixed w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
+            <a href="#home" class="text-xl font-bold bg-gradient-to-r from-blue-600 to-teal-400 bg-clip-text text-transparent">Mario Portacio</a>
+            
+            <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-300">
+                <li><a href="#home" data-i18n="navHome" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Inicio</a></li>
+                <li><a href="#skills-container" data-i18n="navSkills" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Habilidades</a></li>
+                <li><a href="#studies-container" data-i18n="navStudies" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Estudios</a></li>
+                <li><a href="#projects-section" data-i18n="navProjects" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Proyectos</a></li>
+                <li><a href="#contact" data-i18n="navContact" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contacto</a></li>
+                <li>
+                    <button onclick="downloadMyCV()" data-i18n="navCV" class="bg-blue-600 text-white px-4 py-1.5 rounded-lg hover:bg-blue-700 transition-all">CV</button>
+                </li>
+            </ul>
+
+            <div class="flex items-center gap-4">
+                <button id="lang-btn" class="text-sm font-medium px-3 py-1 rounded-md border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800">EN / ES</button>
+                <button id="theme-btn" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <span class="dark:hidden">🌙</span><span class="hidden dark:inline">☀️</span>
+                </button>
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-600 dark:text-slate-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+        
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-6">
+            <ul class="flex flex-col gap-4 text-center font-medium">
+                <li><a href="#home" data-i18n="navHome" onclick="toggleMenu()">Inicio</a></li>
+                <li><a href="#projects-section" data-i18n="navProjects" onclick="toggleMenu()">Proyectos</a></li>
+                <li><a href="#skills-container" data-i18n="navSkills" onclick="toggleMenu()">Habilidades</a></li>
+                <li><a href="#studies-container" data-i18n="navStudies" onclick="toggleMenu()">Estudios</a></li>
+                <li><a href="#contact" data-i18n="navContact" onclick="toggleMenu()">Contacto</a></li>
+                <li><button onclick="downloadMyCV(); toggleMenu()" data-i18n="navCV" class="text-blue-600 font-bold">Descargar CV</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="home" class="fade-up relative min-h-screen flex flex-col justify-center items-center px-4 text-center">
+        <div class="absolute inset-0 -z-10 overflow-hidden">
+            </div>
+            <div class="absolute top-10 left-10 w-80 h-80 bg-blue-400/50 dark:bg-blue-400/25 rounded-full blur-3xl slow-pulse"></div>
+            <div class="absolute bottom-20 right-10 w-80 h-80 bg-teal-400/50 dark:bg-teal-400/25 rounded-full blur-3xl slow-pulse"></div>        
+        <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
+            <span data-i18n="heroTitle">Hola, soy</span>
+            <span class="bg-gradient-to-r from-blue-600 to-teal-400 bg-clip-text text-transparent">
+                Mario Portacio
+            </span>
+        </h1>
+
+        <p id="heroSubtitle" data-i18n="heroSubtitle" class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Desarrollador de software enfocado en crear soluciones eficientes y multiplataforma.</p>
+        <div class="mt-10 flex flex-wrap justify-center gap-4">
+
+            <a data-i18n="btnStudies" href="#skills-container"
+            class="px-6 py-3 rounded-full font-medium text-slate-700 dark:text-slate-200
+                    border border-slate-300 dark:border-slate-700
+                    hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400
+                    hover:bg-blue-50 dark:hover:bg-slate-800
+                    transition-all duration-300">
+                Habilidades y estudios
+            </a>
+
+            <a data-i18n="btnSkills" href="#projects-section"
+            class="px-6 py-3 rounded-full font-medium text-slate-700 dark:text-slate-200
+                    border border-slate-300 dark:border-slate-700
+                    hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400
+                    hover:bg-blue-50 dark:hover:bg-slate-800
+                    transition-all duration-300">
+                Ver proyectos
+            </a>
+
+            <a data-i18n="btnContact" href="#contact"
+            class="px-6 py-3 rounded-full font-medium text-slate-700 dark:text-slate-200
+                    border border-slate-300 dark:border-slate-700
+                    hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400
+                    hover:bg-blue-50 dark:hover:bg-slate-800
+                    transition-all duration-300">
+                Contacto
+            </a>
+
+        </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-2 gap-16">
+        <div class="flex flex-col gap-12">
+            
+            <div id="skills-container">
+                <h2 data-i18n="navSkills" class="text-3xl font-bold mb-8 text-slate-800 dark:text-slate-100">
+                    Habilidades
+                </h2>
+                <div id="skills-list" class="flex flex-wrap gap-3 justify-start">
+                    </div>
+            </div>
+
+            <div id="languages-container">
+                <h2 data-i18n="otherLanguages" class="text-2xl font-bold mb-6 text-slate-800 dark:text-slate-100 border-t border-slate-200 dark:border-slate-700 pt-8">
+                    Habilidades para otras lenguas
+                </h2>
+                <div id="languages-list" class="flex flex-wrap gap-3">
+                    </div>
+            </div>
+
+        </div>
+
+        <div id="studies-container">
+            <h2 data-i18n="navStudies" class="text-3xl font-bold mb-8 text-slate-800 dark:text-slate-100">
+                Estudios
+            </h2>
+            <div id="studies-list" class="space-y-4">
+                </div>
+        </div>
+    </section>
+
+    <section id="projects-section" class="max-w-6xl mx-auto px-4 py-16 mb-24">
+        <h2 data-i18n="navProjects" class="text-4xl font-extrabold mb-16 text-center">Mis Proyectos</h2>
+        <div id="projects-list" class="space-y-24">
+            </div>
+    </section>
+
+    <section id="contact" class="max-w-6xl mx-auto px-4 py-60 mt-84">
+        <div class="text-center mb-16">
+            <h2 data-i18n="contactTitle" class="text-4xl font-bold mb-4">Contacto</h2>
+            <p data-i18n="contactSubtitle" class="text-slate-600 dark:text-slate-400">...</p>
+        </div>
+
+        <div id="contact-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12"></div>
+
+
+        <div class="bg-slate-50 dark:bg-slate-900/50 rounded-3xl p-8 border border-slate-200 dark:border-slate-800">
+            <h3 data-i18n="phonesTitle" class="text-xl font-bold mb-6 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                Teléfonos
+            </h3>
+            <div id="phones-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+        </div>
+    </section>
+
+
+    
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
