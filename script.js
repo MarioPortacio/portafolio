@@ -259,15 +259,20 @@ function renderStudies() {
 
 function setupTheme() {
     const themeBtn = document.getElementById('theme-btn');
-    if(!themeBtn) return;
-
+    
+    // 1. Aplicar el tema inmediatamente al cargar (evita el flash blanco)
     if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
     }
 
+    if(!themeBtn) return;
+
+    // 2. Escuchar el clic
     themeBtn.addEventListener('click', () => {
-        document.documentElement.classList.toggle('dark');
-        localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.theme = isDark ? 'dark' : 'light';
     });
 }
 
@@ -278,23 +283,19 @@ function renderPhones() {
     const container = document.getElementById('phones-list');
     if (!container) return;
 
-    container.innerHTML = phoneNumbers.map(p => {
-        // Creamos una versión "sucia" para los bots (ej: +57_300_123)
-        const safeNumber = p.number.replace(/\s/g, '_');
-        
-        return `
-        <div class="flex items-center justify-between p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700">
-            <div>
-                <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">${p.label}</p>
-                <p class="font-mono text-slate-800 dark:text-slate-200">${p.number}</p>
+    container.innerHTML = phoneNumbers.map(p => `
+        <div class="flex items-center gap-6 p-6 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm">
+            <div class="flex items-center justify-center w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                </svg>
             </div>
-            <button onclick="handlePhoneCall('${safeNumber}')" 
-                    class="p-2 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-600 hover:text-white transition-colors"
-                    title="${content[currentLang].call}">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-            </button>
+            <div class="flex flex-col gap-1">
+                <p class="text-[10px] uppercase tracking-widest text-blue-600 dark:text-blue-400 font-bold">${p.label}</p>
+                <img src="${p.image}" alt="Phone" class="h-14 w-auto object-contain dark:invert opacity-90">
+            </div>
         </div>
-    `}).join('');
+    `).join('');
 }
 
 
@@ -321,56 +322,72 @@ function renderContact() {
     const container = document.getElementById('contact-grid');
     if (!container) return;
 
-    // Generamos las tarjetas de redes sociales
     let html = contactLinks.map(c => {
-        let clickAction = c.isEmail 
-            ? `handleSecureEmail('${c.user}', '${c.domain}')` 
-            : `handleSecureLink('${c.link}')`;
+        // Estructura para el contenido (Imagen para email, Texto para otros)
+        const contentDetail = c.isEmail 
+            ? `<img src="${c.image}" alt="Email" class="h-14 w-auto object-contain dark:invert opacity-90 mt-1">` 
+            : `<p class="text-slate-500 dark:text-slate-400 text-sm">${c.value}</p>`;
+
+        // Solo añadimos link y cursor si NO es email
+        const clickableClasses = c.isEmail ? "" : "cursor-pointer hover:shadow-xl hover:-translate-y-1";
+        const clickAction = c.isEmail ? "" : `onclick="handleSecureLink('${c.link}')"`;
 
         return `
-        <div onclick="${clickAction}" 
-             class="cursor-pointer group bg-white dark:bg-slate-800/40 p-6 rounded-3xl border border-slate-100 dark:border-slate-700/50 shadow-sm hover:shadow-xl transition-all duration-300 flex items-center gap-6">
+        <div ${clickAction} class="${clickableClasses} group bg-white dark:bg-slate-800/40 p-6 rounded-3xl border border-slate-100 dark:border-slate-700/50 shadow-sm transition-all duration-300 flex items-center gap-6">
             <div class="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-900 flex items-center justify-center group-hover:scale-110 transition-transform">
                 <i class="${c.icon} text-2xl ${c.color}"></i>
             </div>
             <div class="flex-1">
-                <h3 class="font-bold text-lg">${c.name}</h3>
-                <span class="text-blue-600 dark:text-blue-400 font-bold text-sm uppercase tracking-wider">
-                    ${content[currentLang][c.btnTextKey]} →
-                </span>
+                <h3 class="font-bold text-lg text-slate-800 dark:text-slate-100">${c.name}</h3>
+                ${contentDetail}
             </div>
-        </div>
-    `; }).join('');
+        </div>`;
+    }).join('');
 
-    // AÑADIMOS EL BOTÓN DE CV AL FINAL DEL HTML
+    // Añadimos el botón de CV al final (este sí mantiene el link porque es un archivo)
     html += `
-    <div onclick="downloadMyCV()" 
-         class="cursor-pointer group bg-blue-600 hover:bg-blue-700 p-6 rounded-3xl shadow-lg shadow-blue-500/20 transition-all duration-300 flex items-center gap-6">
+    <div onclick="downloadMyCV()" class="cursor-pointer group bg-blue-600 hover:bg-blue-700 p-6 rounded-3xl shadow-lg shadow-blue-500/20 transition-all duration-300 flex items-center gap-6">
         <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
             </svg>
         </div>
-        <div class="flex-1">
+        <div class="flex-1 text-left">
             <h3 class="font-bold text-lg text-white">${content[currentLang].downloadCV}</h3>
-            <span class="text-blue-100 font-medium text-sm opacity-80 uppercase tracking-wider">
-                ${content[currentLang].cvStatus} ↓
-            </span>
+            <span class="text-blue-100 font-medium text-sm opacity-80 uppercase tracking-wider">${content[currentLang].cvStatus} ↓</span>
         </div>
-    </div>
-    `;
+    </div>`;
 
     container.innerHTML = html;
 }
 
-// Función para ejecutar la descarga
-function downloadMyCV() {
-    const fileName = content[currentLang].cvFile;
-    const link = document.createElement('a');
-    // Asegúrate de que tus PDFs estén en esta carpeta
-    link.href = `./assets/pdf/${fileName}`; 
-    link.download = fileName;
-    link.click();
+
+async function downloadMyCV() {
+    const langData = content[currentLang];
+    const sourceFile = `fil/${langData.cvFileSource}`;
+    const finalName = langData.cvDownloadName;
+
+    try {
+        const response = await fetch(sourceFile);
+        if (!response.ok) throw new Error('Error al cargar el archivo');
+        
+        const blob = await response.blob();
+
+        const url = window.URL.createObjectURL(blob);
+        
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = finalName;
+        
+        document.body.appendChild(link);
+        link.click();
+        
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error("Error en la descarga:", error);
+        window.open(sourceFile, '_blank');
+    }
 }
 
 
