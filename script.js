@@ -284,14 +284,11 @@ function renderPhones() {
     if (!container) return;
 
     container.innerHTML = phoneNumbers.map(p => `
-        <div class="flex items-center gap-6 p-6 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm">
-            <div class="flex items-center justify-center w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                </svg>
-            </div>
+        <div class="flex items-center gap-6 p-6 bg-white dark:bg-black rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm">
             <div class="flex flex-col gap-1">
-                <p class="text-[10px] uppercase tracking-widest text-blue-600 dark:text-blue-400 font-bold">${p.label}</p>
+                <p class="text-[10px] uppercase tracking-widest text-blue-600 dark:text-blue-400 font-bold">
+                    ${content[currentLang][p.labelKey]} 
+                </p>
                 <img src="${p.image}" alt="Phone" class="h-14 w-auto object-contain dark:invert opacity-90">
             </div>
         </div>
@@ -333,15 +330,15 @@ function renderContact() {
         const clickAction = c.isEmail ? "" : `onclick="handleSecureLink('${c.link}')"`;
 
         return `
-        <div ${clickAction} class="${clickableClasses} group bg-white dark:bg-slate-800/40 p-6 rounded-3xl border border-slate-100 dark:border-slate-700/50 shadow-sm transition-all duration-300 flex items-center gap-6">
-            <div class="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-900 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <i class="${c.icon} text-2xl ${c.color}"></i>
-            </div>
-            <div class="flex-1">
-                <h3 class="font-bold text-lg text-slate-800 dark:text-slate-100">${c.name}</h3>
-                ${contentDetail}
-            </div>
-        </div>`;
+            <div ${clickAction} class="${clickableClasses} group bg-white dark:bg-black p-6 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm transition-all duration-300 flex items-center gap-6">
+                <div class="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-slate-900 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i class="${c.icon} text-2xl ${c.color}"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-lg text-slate-800 dark:text-white">${c.name}</h3>
+                    ${contentDetail}
+                </div>
+            </div>`;
     }).join('');
 
     // Añadimos el botón de CV al final (este sí mantiene el link porque es un archivo)

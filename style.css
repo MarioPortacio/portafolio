@@ -80,3 +80,8 @@ html {
 .slow-pulse {
   animation: slowPulse 6s ease-in-out infinite;
 }
+
+
+.contacto-negro-puro {
+    background-color: #000000 !important;
+}

@@ -30,7 +30,10 @@ const content = {
         navCV: "Descargar Hoja de Vida",
         btnSkills: "Ver Proyectos",
         btnContact: "Ver Contacto",
-        btnStudies: "Ver habilidades y estudios"
+        btnStudies: "Ver habilidades y estudios",
+
+        labelMobile: "Celular",
+        labelPhone: "Teléfono"
     },
     en: {
         heroTitle: "Hi, I'm ",
@@ -62,7 +65,10 @@ const content = {
         navCV: "Download Resume",
         btnSkills: "View Projects",
         btnContact: "View Contact",
-        btnStudies: "View skills and education"
+        btnStudies: "View skills and education",
+
+        labelMobile: "Mobile",
+        labelPhone: "Phone"
     }
 };
 
@@ -229,7 +235,7 @@ const contactLinks = [
 ];
 
 const phoneNumbers = [
-    { label: "Celular", image: "img/contacto/tel1.jpg", raw: "3001234567" },
-    { label: "Fijo", image: "img/contacto/tel2.jpg", raw: "3017654321" }
+    { labelKey: "labelMobile", image: "img/contacto/tel1.jpg", raw: "3001234567" },
+    { labelKey: "labelPhone", image: "img/contacto/tel2.jpg", raw: "3017654321" }
 ];
 
